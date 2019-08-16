@@ -1,12 +1,7 @@
 import React, { createContext, useReducer } from "react";
 import App from "../components/App";
 import axios from "axios";
-import {
-  SAVE_SMURF,
-  SAVE_SMURF_SUCCESS,
-  DELETE_SMURF,
-  REQUEST_ERROR
-} from "../actions/actions";
+import { FETCH_REQUEST, FETCH_SUCCESS, FETCH_ERROR, SET_SMURFS, UPDATE_FILTER, CLEAR_FILTER, SAVE_SMURF, SAVE_SMURF_SUCCESS } from "../actions/actions";
 
 export const initialState = {
   smurfs: [],
@@ -16,61 +11,53 @@ export const initialState = {
   deletingSmurf: false
 };
 
-export const getSmurfs = dispatch => {
-  dispatch({ type: "GET_SMURFS" });
-  axios
-    .get("http://localhost:3333/smurfs")
-    .then(res => {
-      console.log(res);
-      dispatch({ type: "GET_SMURFS_SUCCESS", payload: res.data });
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({ type: "GET_SMURFS_FAILURE", payload: err.message });
-    });
-};
-
 export const reducer = (state, action) => {
   switch (action.type) {
-    case "GET_SMURFS":
+    case FETCH_REQUEST:
+    case FETCH_SUCCESS:
+    case FETCH_ERROR:
       return {
         ...state,
-        fetching: true
+        [action.key]: {
+          isFetching: action.isFetching,
+          error: action.error
+        }
       };
-    case "GET_SMURFS_SUCCESS":
+    case SET_SMURFS: {
       return {
         ...state,
-        smurfs: action.payload,
-        fetching: false
+        smurfs: {
+          ...state.smurfs,
+          data: action.smurfs
+        }
       };
-    case "GET_SMURFS_FAILURE":
-      return {
-        ...state,
-        fetching: false,
-        error: action.payload
-      };
+    }
     case SAVE_SMURF:
       return {
         ...state,
         savingSmurf: true
       };
-    case SAVE_SMURF_SUCCESS:
-      return { ...state, smurfs: action.payload, savingSmurf: false };
-    case DELETE_SMURF:
-      return {
-        ...state,
-        deletingSmurf: true
-      };
-    case REQUEST_ERROR:
-      return {
-        ...initialState,
-        smurfs: state.smurfs,
-        error: action.payload
+   case SAVE_SMURF_SUCCESS:
+      return { 
+        ...state, 
+        smurfs: {
+          ...state.smurfs,
+          data: action.smurfs
+        }        
       };
 
+    case UPDATE_FILTER: {
+      return {
+        ...state,
+        filter: { ...state.filter, [action.key]: action.value }
+      };
+    }
+    case CLEAR_FILTER: {
+      return {};
+    }
     default:
       return state;
   }
 };
 
-//export const Store = createContext(initialState);
+export default reducer

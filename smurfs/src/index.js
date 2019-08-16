@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import "antd/dist/antd.css";
 import "./index.css";
 import App from "./components/App";
-//import { SmurfProvider } from "./reducers/smurfReducer";
+import { Provider } from "./Store";
 
-//const Store = createContext(initialState);
-//const [smurfs, dispatch] = useReducer(reducer);
 
 ReactDOM.render(
-  <App />,
+  <Provider>
+  <App />
+  </Provider>,
 
   document.getElementById("root")
 );

@@ -1,15 +1,16 @@
 import React, { useReducer, useContext, useEffect } from "react";
 import { List, Typography } from "antd";
-import Store from "../../Store";
-import { getSmurfs } from "../../reducers/reducer";
+
+import { getSmurfs } from "../../actions/actions";
+import { Context } from "../../Store";
 
 const SmurfList = props => {
-  const [state, dispatch] = useContext(Store);
-  //const [state, dispatch] = useReducer(reducer, initialState);
-
+  const [smurfs , dispatch] = useContext(Context);
+  const smurfData = smurfs.data;
   useEffect(() => {
-    getSmurfs();
+    getSmurfs(dispatch);
   }, []);
+
   function handleClick() {
     dispatch({ type: "GET_SMURFS" });
   }
@@ -21,25 +22,27 @@ const SmurfList = props => {
     //removeTodo(todoId, dispatch);
   };
 
-  return (
-    <div style={{ background: "#fff", minHeight: 280 }}>
-      {console.log(state)}
-      <List
-        header={<h1>My Todo's</h1>}
-        bordered
-        dataSource={state.smurfs}
-        renderItem={item => (
-          <List.Item
-            key={item.id}
-            value={item.id}
-            onClick={() => handleClick(item.id)}
-            onDoubleClick={() => handleRemoveTodo(item.id)}
-          >
-            {item}
-          </List.Item>
-        )}
-      />
-    </div>
-  );
+  if (smurfs) {
+    if (smurfs.isFetching) return <h3>Loading...</h3>;
+    return (
+      <div style={{ background: "#fff", minHeight: 280 }}>
+        <List
+          header={<h1>My Todo's</h1>}
+          bordered
+          dataSource={smurfs.smurfs.data}
+          renderItem={item => (
+            <List.Item
+              key={item.id}
+              value={item.id}
+              onClick={() => handleClick(item.id)}
+              onDoubleClick={() => handleRemoveTodo(item.id)}
+            >
+              {item.name}
+            </List.Item>
+          )}
+        />
+      </div>
+    );
+  } else return null;
 };
 export default SmurfList;
