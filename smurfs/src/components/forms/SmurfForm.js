@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useContext ,useEffect} from "react";
+import React, { useReducer, useState, useContext, useEffect } from "react";
 import { Context } from "../../Store";
 import { saveSmurf } from "../../actions/actions";
 import { Field, withFormik, Formik } from "formik";
@@ -15,8 +15,7 @@ import {
   Card,
   Alert
 } from "antd";
-import axios from 'axios'
-
+import axios from "axios";
 
 const SmurfForm2 = props => {
   const dispatch = useContext(Context);
@@ -48,7 +47,6 @@ const SmurfForm2 = props => {
   );
 };
 //export default SmurfForm;
-
 
 const url = "http://localhost:5000/api/register";
 
@@ -101,7 +99,6 @@ const SmurfFormiks = ({
       style={{
         padding: 24,
         minHeight: 280
-
       }}
     >
       {errors.name &&
@@ -186,7 +183,7 @@ const SmurfFormiks = ({
             Register
           </Button>
         </Form.Item>
-        {console.log({Context})}
+        {console.log({ Context })}
       </Form>
       {status && status.registration && <div>{status.registration}</div>}
     </Card>
@@ -198,7 +195,7 @@ const SmurfForm = withFormik({
     return {
       age: age || "",
       name: name || "",
-      height: height || "",
+      height: height || ""
     };
   },
   validationSchema: Yup.object().shape({
@@ -209,10 +206,8 @@ const SmurfForm = withFormik({
 
   handleSubmit(values, actions) {
     //dispatch({ type: "add", text: "hello" });
-    saveSmurf(values)
-
+    saveSmurf(values);
   }
 })(SmurfFormiks); // currying functions in Javascript
 
 export default SmurfForm;
-
