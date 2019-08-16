@@ -5,8 +5,8 @@ import { getSmurfs } from "../../actions/actions";
 import { Context } from "../../Store";
 
 const SmurfList = props => {
-  const [smurfs , dispatch] = useContext(Context);
-  const smurfData = smurfs.data;
+  const [smurfs, dispatch] = useContext(Context);
+
   useEffect(() => {
     getSmurfs(dispatch);
   }, []);

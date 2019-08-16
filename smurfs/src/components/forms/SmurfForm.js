@@ -17,39 +17,6 @@ import {
 } from "antd";
 import axios from "axios";
 
-const SmurfForm2 = props => {
-  const dispatch = useContext(Context);
-  const [smurf, setSmurf] = useState([]);
-
-  const handleChange = e => {
-    setSmurf(e.target.value);
-  };
-  const handleSubmit = e => {
-    e.preventDefault();
-    dispatch({ type: "add", text: "hello" });
-    //addSmurf(smurf, dispatch);
-    //setSmurf("");
-  };
-
-  return (
-    <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
-      <Form>
-        <Input value={smurf} type="text" onChange={handleChange} />
-        <Button
-          type="dashed"
-          style={{ marginTop: "10px" }}
-          onClick={handleSubmit}
-        >
-          <Icon type="plus" /> Add Todo
-        </Button>
-      </Form>
-    </div>
-  );
-};
-//export default SmurfForm;
-
-const url = "http://localhost:5000/api/register";
-
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -77,8 +44,8 @@ const SmurfFormiks = ({
   error,
   touched,
   values,
-  handleSubmit,
   handleChange,
+  setSubmitting,
   handleBlur,
   status,
   setFieldValue,
@@ -86,7 +53,15 @@ const SmurfFormiks = ({
   name
 }) => {
   const [user, setUser] = useState([]);
-  const dispatch = useContext(Context);
+  const [smurfs, dispatch] = useContext(Context);
+
+  const handleSubmit = () => {
+    console.log(values);
+    //dispatch({ type: "decrement" })
+    saveSmurf(dispatch, values);
+    setSubmitting(false);
+  };
+
   useEffect(() => {
     if (status) {
       setUser([...user, status]);
@@ -154,7 +129,7 @@ const SmurfFormiks = ({
             label="age"
             name="age"
             id="age"
-            type="age"
+            type="number"
           />
         </Form.Item>
         <Form.Item
@@ -183,7 +158,6 @@ const SmurfFormiks = ({
             Register
           </Button>
         </Form.Item>
-        {console.log({ Context })}
       </Form>
       {status && status.registration && <div>{status.registration}</div>}
     </Card>
@@ -200,14 +174,9 @@ const SmurfForm = withFormik({
   },
   validationSchema: Yup.object().shape({
     name: Yup.string().required("Required"),
-    age: Yup.string().required("Required"),
+    age: Yup.number().required("Required"),
     height: Yup.string().required("Required")
-  }),
-
-  handleSubmit(values, actions) {
-    //dispatch({ type: "add", text: "hello" });
-    saveSmurf(values);
-  }
+  })
 })(SmurfFormiks); // currying functions in Javascript
 
 export default SmurfForm;
