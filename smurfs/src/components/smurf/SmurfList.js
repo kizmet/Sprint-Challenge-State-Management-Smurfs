@@ -1,5 +1,5 @@
 import React, { useReducer, useContext, useEffect } from "react";
-import { List, Typography } from "antd";
+import { List, Avatar } from "antd";
 
 import { getSmurfs } from "../../actions/actions";
 import { Context } from "../../Store";
@@ -27,7 +27,7 @@ const SmurfList = props => {
     return (
       <div style={{ background: "#fff", minHeight: 280 }}>
         <List
-          header={<h1>My Todo's</h1>}
+          header={<h1>The Smurfs</h1>}
           bordered
           dataSource={smurfs.smurfs.data}
           renderItem={item => (
@@ -37,7 +37,13 @@ const SmurfList = props => {
               onClick={() => handleClick(item.id)}
               onDoubleClick={() => handleRemoveTodo(item.id)}
             >
-              {item.name}
+              <List.Item.Meta
+                avatar={
+                  <Avatar src="https://vignette.wikia.nocookie.net/smurfs/images/0/0b/Cartoon_Icon.jpg/revision/latest" />
+                }
+                title={item.name}
+                description={`Age: ${item.age}, Height: ${item.height}`}
+              />
             </List.Item>
           )}
         />

@@ -62,18 +62,19 @@ const SmurfFormiks = ({
     setSubmitting(false);
   };
 
-  useEffect(() => {
-    if (status) {
-      setUser([...user, status]);
-    }
-  }, [status]);
+  // useEffect(() => {
+  //   if (status) {
+  //     setUser([...user, status]);
+  //   }
+  // }, [status]);
 
   return (
     <Card
-      title="Register as a New user"
+      title="Add a New Smurf"
       style={{
-        padding: 24,
-        minHeight: 280
+        padding: 20,
+        marginLeft: 10
+        // minHeight: 280
       }}
     >
       {errors.name &&
@@ -100,7 +101,7 @@ const SmurfFormiks = ({
             : {})}
         >
           <Input
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={<Icon type="smile" theme="twoTone" />}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.name}
@@ -121,7 +122,7 @@ const SmurfFormiks = ({
             : {})}
         >
           <Input
-            prefix={<Icon type="bank" style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={<Icon type="number" />}
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.age}
@@ -142,7 +143,9 @@ const SmurfFormiks = ({
             : {})}
         >
           <Input
-            prefix={<Icon type="bank" style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={
+              <Icon type="up-square" theme="twoTone" twoToneColor="#52c41a" />
+            }
             onChange={handleChange}
             onBlur={handleBlur}
             value={values.height}
@@ -153,10 +156,16 @@ const SmurfFormiks = ({
             type="height"
           />
         </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
-            Register
-          </Button>
+        <Form.Item label="Add Smurf">
+          <Button
+            icon="plus-circle"
+            theme="twoTone"
+            twoToneColor="#eb2f96"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            type=""
+            htmlType="submit"
+          />
         </Form.Item>
       </Form>
       {status && status.registration && <div>{status.registration}</div>}
