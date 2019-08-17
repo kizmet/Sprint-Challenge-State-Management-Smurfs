@@ -7,9 +7,7 @@ import {
   FETCH_ERROR,
   SET_SMURFS,
   POST_REQUEST,
-  POST_SUCCESS,
-  SAVE_SMURF,
-  SAVE_SMURF_SUCCESS
+  POST_SUCCESS
 } from "../actions/actions";
 
 export const initialState = {
@@ -43,19 +41,7 @@ export const reducer = (state, action) => {
     }
     case POST_REQUEST:
     case POST_SUCCESS:
-    case SAVE_SMURF:
-      return {
-        ...state,
-        savingSmurf: true
-      };
-    case SAVE_SMURF_SUCCESS:
-      return {
-        ...state,
-        smurfs: {
-          ...state.smurfs,
-          data: action.smurfs
-        }
-      };
+
 
     default:
       return state;
