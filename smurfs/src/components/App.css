@@ -1,3 +1,8 @@
+.ant-layout-header {
+  display: flex;
+  justify-content: center;
+}
+
 .logo {
   width: 120px;
   height: 31px;
@@ -12,4 +17,8 @@
 
 img {
   height: 31px;
+}
+
+.ant-layout-sider-trigger {
+  display: none;
 }

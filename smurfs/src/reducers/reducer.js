@@ -1,10 +1,7 @@
-import React, { createContext, useReducer } from "react";
-import App from "../components/App";
-import axios from "axios";
 import {
   FETCH_REQUEST,
   FETCH_SUCCESS,
-  FETCH_ERROR,
+  REQUEST_ERROR,
   SET_SMURFS,
   POST_REQUEST,
   POST_SUCCESS
@@ -22,7 +19,7 @@ export const reducer = (state, action) => {
   switch (action.type) {
     case FETCH_REQUEST:
     case FETCH_SUCCESS:
-    case FETCH_ERROR:
+    case REQUEST_ERROR:
       return {
         ...state,
         [action.key]: {
@@ -41,8 +38,6 @@ export const reducer = (state, action) => {
     }
     case POST_REQUEST:
     case POST_SUCCESS:
-
-
     default:
       return state;
   }

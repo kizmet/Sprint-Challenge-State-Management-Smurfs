@@ -1,6 +1,6 @@
 import React, { useReducer, useState, useContext, useEffect } from "react";
-import { Context } from "../../Store";
-import { saveSmurf } from "../../actions/actions";
+import { SmurfContext } from "../../store/smurfStore";
+import { saveSmurf } from "../../store/smurfReducer";
 import { Field, withFormik, Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -52,13 +52,10 @@ const SmurfFormiks = ({
   setFieldTouched,
   name
 }) => {
-  const [user, setUser] = useState([]);
-  const [smurfs, dispatch] = useContext(Context);
-
   const handleSubmit = () => {
     console.log(values);
     //dispatch({ type: "decrement" })
-    saveSmurf(dispatch, values);
+    saveSmurf(values);
     setSubmitting(false);
   };
 
@@ -160,7 +157,6 @@ const SmurfFormiks = ({
           <Button
             icon="plus-circle"
             theme="twoTone"
-            twoToneColor="#eb2f96"
             onBlur={handleBlur}
             onChange={handleChange}
             type=""

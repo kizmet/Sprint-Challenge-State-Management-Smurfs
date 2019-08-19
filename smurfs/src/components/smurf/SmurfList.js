@@ -1,26 +1,12 @@
 import React, { useReducer, useContext, useEffect } from "react";
 import { List, Avatar } from "antd";
-
-import { getSmurfs } from "../../actions/actions";
-import { Context } from "../../Store";
+import { getSmurfs } from "../../store/smurfReducer";
+import { Context } from "../../store/Store";
 
 const SmurfList = props => {
-  const [smurfs, dispatch] = useContext(Context);
-
   useEffect(() => {
-    getSmurfs(dispatch);
+    getSmurfs();
   }, []);
-
-  function handleClick() {
-    dispatch({ type: "GET_SMURFS" });
-  }
-  const handleClickz = todoId => {
-    //toggleTodo(todoId, dispatch);
-  };
-
-  const handleRemoveTodo = todoId => {
-    //removeTodo(todoId, dispatch);
-  };
 
   if (smurfs) {
     if (smurfs.isFetching) return <h3>Loading...</h3>;
@@ -31,12 +17,7 @@ const SmurfList = props => {
           bordered
           dataSource={smurfs.smurfs.data}
           renderItem={item => (
-            <List.Item
-              key={item.id}
-              value={item.id}
-              onClick={() => handleClick(item.id)}
-              onDoubleClick={() => handleRemoveTodo(item.id)}
-            >
+            <List.Item key={item.id} value={item.id}>
               <List.Item.Meta
                 avatar={
                   <Avatar src="https://vignette.wikia.nocookie.net/smurfs/images/0/0b/Cartoon_Icon.jpg/revision/latest" />

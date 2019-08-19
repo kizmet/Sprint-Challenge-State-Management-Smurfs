@@ -1,0 +1,10 @@
+export const FETCH_SUCCESS = "FETCH_SUCCESS";
+export const FETCH_REQUEST = "FETCH_REQUEST";
+export const SMURFS = "smurfs";
+export const SET_SMURFS = "SET_SMURFS";
+export const POST_REQUEST = "POST_REQUEST";
+export const POST_SUCCESS = "POST_SUCCESS";
+export const SMURF = "SMURF";
+export const SAVE_SMURF_SUCCESS = "SAVE_SMURF_SUCCESS";
+export const DELETE_SMURF = "DELETE_SMURF";
+export const REQUEST_ERROR = "REQUEST_ERROR";
