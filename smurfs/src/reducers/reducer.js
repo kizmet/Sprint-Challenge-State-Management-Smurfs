@@ -1,13 +1,12 @@
 import {
   FETCH_REQUEST,
-  FETCH_SUCCESS,
+  RECEIVE_REQUEST,
   REQUEST_ERROR,
-  SET_SMURFS,
-  POST_REQUEST,
+  POST,
   POST_SUCCESS
 } from "../actions/actions";
 
-export const initialState = {
+const initialState = {
   smurfs: [],
   error: null,
   fetching: false,
@@ -15,29 +14,38 @@ export const initialState = {
   deletingSmurf: false
 };
 
-export const reducer = (state, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_REQUEST:
-    case FETCH_SUCCESS:
+      return {
+        ...state,
+        fetching: true,
+        error: "You have not successfully fetched the smurfs!"
+      };
+    case RECEIVE_REQUEST: {
+      return {
+        ...state,
+        smurfs: action.payload,
+        fetching: false,
+        error: ""
+      };
+    }
     case REQUEST_ERROR:
       return {
         ...state,
-        [action.key]: {
-          isFetching: action.isFetching,
-          error: action.error
-        }
+        error: action.payload
       };
-    case SET_SMURFS: {
+    case POST:
       return {
         ...state,
-        smurfs: {
-          ...state.smurfs,
-          data: action.smurfs
-        }
+        savingSmurf: true,
+        error: action.payload
       };
-    }
-    case POST_REQUEST:
     case POST_SUCCESS:
+      return {
+        ...state,
+        savingSmurf: false
+      };
     default:
       return state;
   }

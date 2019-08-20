@@ -1,11 +1,15 @@
-import React, { createContext, useReducer } from "react";
-import { initialState, reducer } from "../reducers/reducer";
+import react from "react";
+import { createStore, applyMiddleware } from "redux";
+import reducer from "../reducers/reducer";
+import thunk from "redux-thunk";
+import logger from "redux-logger";
 
-const Context = createContext();
+import { combineReducers } from "redux";
 
-const SmurfProvider = ({ children }) => {
-  const contextValue = useReducer(reducer, initialState);
-  return <Context.Provider value={contextValue}>{children}</Context.Provider>;
-};
+const rootReducer = combineReducers({
+  reducer
+});
 
-export { Context, SmurfProvider };
+export default function Store() {
+  return createStore(rootReducer, applyMiddleware(thunk));
+}

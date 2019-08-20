@@ -1,82 +1,116 @@
-import React, { createContext, useReducer } from "react";
-
-// const initialState = {
-//   todos: []
-// };
+import {
+  FETCH_RESTAURANTS_START,
+  FETCH_RESTAURANTS_SUCCESS,
+  FETCH_RESTAURANTS_FAIL,
+  SEARCH,
+  FETCH_USER_START,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAIL,
+  ADD_REST_START,
+  ADD_REST_SUCCESS,
+  ADD_REST_FAIL,
+  DEL_REST_START,
+  DEL_REST_SUCCESS,
+  DEL_REST_FAIL
+} from "../actions/Restaurants";
 
 const initialState = {
-  todos: [
-    {
-      item: "Learn about reducers",
-      completed: false,
-      id: 12345678910
-    },
-    {
-      item: "Learn about reducers2",
-      completed: false,
-      id: 12345678912
-    }
-  ]
+  restaurants: [],
+  savedRestaurants: [],
+  isFetching: true,
+  isFetchingSaved: false,
+  error: "",
+  search: "",
+  addingRest: false,
+  delRest: false
 };
 
-export const Store = createContext(initialState);
-
-const addTodo = (state, todoText) => {
-  const newTodo = {
-    id: Date.now(),
-    item: todoText,
-    completed: false
-  };
-  return { ...state, todos: [...state.todos, newTodo] };
-};
-
-const removeTodo = (state, todoId) => {
-  const newTodos = state.todos.filter(todo => todo.id !== todoId);
-  return { ...state, todos: newTodos };
-};
-
-const clearCompleted = (state, todoId) => {
-  const newState = state.todos.filter(todo => todo.completed === false);
-  return { ...state, todos: newState };
-};
-
-const toggleTodo = (state, todoId) => {
-  const newState = state.todos.map(todo => {
-    if (todo.id === todoId) {
-      return {
-        ...todo,
-        completed: !todo.completed
-      };
-    } else {
-      return todo;
-    }
-  });
-  return { ...state, todos: newState };
-};
-
-const reducer = (state, action) => {
+function RestaurantData(state = initialState, action) {
   switch (action.type) {
-    case "TOGGLE_TODO":
-      return toggleTodo(state, action.todoId);
-    case "ADD_TODO":
-      return addTodo(state, action.todoText);
-    case "CLEAR_COMPLETED":
-      return clearCompleted(state, action.todoId);
-    case "REMOVE_TODO":
-      return removeTodo(state, action.todoId);
+    case FETCH_RESTAURANTS_START:
+      return {
+        ...state,
+        isFetching: true,
+        error: "You have not successfully fetched the restaurants!"
+      };
+    case FETCH_RESTAURANTS_SUCCESS:
+      return {
+        ...state,
+        restaurants: action.payload,
+        isFetching: true,
+        isFetchingSaved: true,
+        error: ""
+      };
+    case FETCH_RESTAURANTS_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case SEARCH:
+      return {
+        ...state,
+        search: action.payload,
+        restaurants: action.payload.filter(restaurant =>
+          restaurant.name.includes(action.payload)
+        )
+      };
+    case FETCH_USER_START:
+      return {
+        ...state,
+        isFetching: true,
+        error: "You have not successfully fetched the restaurants!"
+      };
+    case FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        savedRestaurants: action.payload,
+        isFetching: false,
+        isFetchingSaved: false,
+        error: ""
+      };
+    case FETCH_USER_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case ADD_REST_START:
+      return {
+        ...state,
+        addingRest: true,
+        error: "You have not successfully added the restaurants!"
+      };
+    case ADD_REST_SUCCESS:
+      return {
+        ...state,
+        // savedRestaurants: action.payload,
+        addingRest: false,
+        error: ""
+      };
+    case ADD_REST_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case DEL_REST_START:
+      return {
+        ...state,
+        delRest: true,
+        error: "You have not successfully del the restaurants!"
+      };
+    case DEL_REST_SUCCESS:
+      return {
+        ...state,
+        // savedRestaurants: action.payload,
+        delRest: false,
+        error: ""
+      };
+    case DEL_REST_FAIL:
+      return {
+        ...state,
+        error: action.payload
+      };
     default:
       return state;
   }
-};
-
-export const SmurfProvider = props => {
-  const [state, dispatch] = useReducer(
-    reducer,
-    props.initialState || initialState
-  );
-  return (
-    <Store.Provider value={{ state, dispatch }}>
-      {props.children}
-    </Store.Provider>
-  );
-};
+}
+export default RestaurantData;
