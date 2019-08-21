@@ -2,19 +2,20 @@ import React, { useState, useReducer, useContext } from "react";
 import "./App.css";
 import { Layout, Button, Icon } from "antd";
 import SmurfList from "./smurf/SmurfList";
-//import SmurfForm from "./forms/SmurfForm";
+import SmurfForm from "./forms/SmurfForm";
+import { connect } from "react-redux";
 
-const App = () => {
-  //const [smurfs, dispatchSmurfs] = useReducer(smurfReducer, initialState);
+
+
+const App = props => {
+
   const [collapse, setCollapse] = useState(true);
-
   const onCollapse = () => {
     setCollapse(!collapse);
   };
 
   const { Header, Content, Footer, Sider } = Layout;
   return (
-    //<SmurfContext.Provider value={dispatchSmurfs}>
     <Layout style={{ minHeight: "100vh" }}>
       <Header style={{ background: "#1890ff" }}>
         <div className="logo">
@@ -28,7 +29,6 @@ const App = () => {
           style={{ background: "#fff" }}
           collapsible
           collapsed={collapse}
-          // onCollapse={onCollapse}
         >
           <Button
             type="primary"
@@ -37,7 +37,7 @@ const App = () => {
           >
             <Icon type={collapse ? "menu-unfold" : "menu-fold"} />
           </Button>
-          {/* <SmurfForm /> */}
+          <SmurfForm />
         </Sider>
 
         <Content
@@ -53,8 +53,8 @@ const App = () => {
       </Layout>
       <Footer style={{ textAlign: "center" }} />
     </Layout>
-    //</SmurfContext.Provider>
   );
 };
 
 export default App;
+

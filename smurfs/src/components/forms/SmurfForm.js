@@ -1,6 +1,5 @@
 import React, { useReducer, useState, useContext, useEffect } from "react";
-import { SmurfContext } from "../../store/smurfStore";
-import { saveSmurf } from "../../store/smurfReducer";
+import { connect } from "react-redux";
 import { Field, withFormik, Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -16,6 +15,8 @@ import {
   Alert
 } from "antd";
 import axios from "axios";
+import { saveSmurf } from "../../actions";
+
 
 const formItemLayout = {
   labelCol: {
@@ -45,6 +46,7 @@ const SmurfFormiks = ({
   touched,
   values,
   handleChange,
+  handleSubmit,
   setSubmitting,
   handleBlur,
   status,
@@ -52,13 +54,6 @@ const SmurfFormiks = ({
   setFieldTouched,
   name
 }) => {
-  const handleSubmit = () => {
-    console.log(values);
-    //dispatch({ type: "decrement" })
-    saveSmurf(values);
-    setSubmitting(false);
-  };
-
   // useEffect(() => {
   //   if (status) {
   //     setUser([...user, status]);
@@ -169,19 +164,48 @@ const SmurfFormiks = ({
   );
 };
 
-const SmurfForm = withFormik({
-  mapPropsToValues({ age, name, height }) {
-    return {
-      age: age || "",
-      name: name || "",
-      height: height || ""
-    };
-  },
-  validationSchema: Yup.object().shape({
-    name: Yup.string().required("Required"),
-    age: Yup.number().required("Required"),
-    height: Yup.string().required("Required")
-  })
-})(SmurfFormiks); // currying functions in Javascript
 
-export default SmurfForm;
+
+
+const SmurfForm = 
+  withFormik({
+    mapPropsToValues({ age, name, height }) {
+      return {
+        age: age || "",
+        name: name || "",
+        height: height || ""
+      };
+    },
+    validationSchema: Yup.object().shape({
+      name: Yup.string().required("Required"),
+      age: Yup.number().required("Required"),
+      height: Yup.string().required("Required")
+    }),
+    handleSubmit: ( values,  { props }) => {
+      props.saveSmurf(values);
+      //actions.setStatus(res.data.message);
+      //actions.setSubmitting(false);
+    }
+  })(SmurfFormiks); // currying functions in Javascript
+
+//export default SmurfForm;
+
+
+const mapStateToProps = ({
+  error,
+  fetching,
+  savingSmurf,
+  deletingSmurf
+}) => ({
+  error: error,
+  fetching: fetching,
+  savingSmurf: savingSmurf,
+  deletingSmurf: deletingSmurf
+});
+
+export default connect(
+  mapStateToProps,
+  { saveSmurf }
+)(SmurfForm);
+
+

@@ -1,17 +1,17 @@
 import React, { useReducer, useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { List, Avatar } from "antd";
-import { getSmurfs } from "../../actions/actions";
+import { getSmurfs } from "../../actions";
 
 const SmurfList = props => {
   useEffect(() => {
-    getSmurfs();
+    props.getSmurfs();
     console.log(props);
-  }, [getSmurfs]);
+  }, [props.fetching, props.savingSmurf]);
 
   return (
     <div style={{ background: "#fff", minHeight: 280 }}>
-      {props.isFetching && <h3>Loading...</h3>}
+      {props.fetching && <h3>Loading...</h3>}
       <List
         header={<h1>The Smurfs</h1>}
         bordered
